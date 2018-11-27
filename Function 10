@@ -1,0 +1,77 @@
+import UIKit
+
+// 1. Создайте пару функций с короткими именами, которые возвращают строку с классным символом или символами. Например heart() возвращает сердце и т.п. Вызовите все эти функции внутри принта для вывода строки этих символов путем конкатенации.
+ 
+func hart() -> String {
+    return "\u{1F496}"
+}
+
+func shit() -> String {
+    return " = \u{1F4A9}"
+}
+print(hart() + " + " + hart() + shit())
+
+ 
+
+//2. Опять шахматные клетки. Реализовать функцию, которая принимает букву и символ и возвращает строку “белая” или “черная”. Строку потом распечатайте в консоль
+
+func chess(letter: String, digit: Int) -> String {
+    let abc = ["1": "A", "2": "B", "3": "C", "4": "D", "5": "E", "6": "F", "7": "G", "8": "H"]
+    for(index, value) in abc {
+        if value.uppercased() ==  letter.uppercased() && (digit > 0 && digit < 9) {
+           return Int(index)! % 2 == digit % 2 ? "White" : "Black"
+        }
+    }
+    return "Index is out of range"
+}
+
+chess(letter: "a", digit: 1)
+
+//3. Создайте функцию, которая принимает массив, а возвращает массив в обратном порядке. Можете создать еще одну, которая принимает последовательность и возвращает массив в обратном порядке. Чтобы не дублировать код, сделайте так, чтобы функция с последовательностью вызывала первую.
+
+func forArray(array: [Int]) -> [Int] {
+    var temp = [Int]()
+    for i in array {
+        temp.insert(i, at: 0)
+    }
+    return temp
+}
+
+func sequensce(seq: Int...) -> [Int] {
+    return forArray(array: seq)
+}
+
+var integeerArray = [1, 4, 5, 67, 77, 5, 445, 65, 8, 99, 0]
+
+var rever = forArray(array: integeerArray)
+var seque = sequensce(seq: 1, 3, 5, 76, 89, 9)
+
+//4. Разберитесь с inout самостоятельно и выполните задание номер 3 так, чтобы функция не возвращала перевернутый массив, но меняла элементы в существующем. Что будет если убрать inout?
+
+func forInArray(array: inout [Int]) -> () {
+    print(array.reversed())
+}
+
+forInArray(array: &integeerArray)
+
+
+// 5. Создайте функцию, которая принимает строку, убирает из нее все знаки препинания, делает все гласные большими буквами, согласные маленькими, а цифры меняет на соответствующие слова (9 -> nine и тд)
+
+func demageString(str: String) -> (String) {
+    var numbers = ["0": "Zero", "1": "One", "2": "Two", "3": "Three", "4": "Four", "5": "Five", "6": "Six", "7": "Seven", "8": "Eight", "9": "Nine"]
+    var tempString = ""
+    for i in str {
+        switch i {
+        case "a", "e", "i", "o", "u", "y": tempString += String(i).lowercased()
+        case " ", ",", ".", "?", ":", "!": tempString += ""
+        case "1", "2", "3", "4", "5", "6", "7", "8", "9", "0": tempString += numbers[String(i)]!
+        default: tempString += String(i).uppercased()
+        }
+    }
+    return tempString
+}
+
+var line = "Following is the implementation for the same. The code supports numbers up-to 4 digits, i.e., numbers from 0 to 9999. Idea is to create arrays that store individual parts of output strings. One array is used for single digits, one for numbers from 10 to 19, one for 20, 30, 40, 50, .. etc, and one for powers of 10. The given number is divided in two parts: first two digits and last two digits, and the two parts are printed separately."
+
+var topr = demageString(str: line)
+print(topr)
